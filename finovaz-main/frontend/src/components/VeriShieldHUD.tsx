@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Invoice, VerificationResult } from '@finova/shared';
+import { ShieldCheck, Sparkles, AlertTriangle, Upload, CheckCircle2, ShieldAlert, Volume2 } from 'lucide-react';
+import { Invoice, VerificationResult, VoiceTopic } from '@finova/shared';
 
 interface VeriShieldHUDProps {
   onVerified: (invoice: Invoice) => void;
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
 }
 
-export const VeriShieldHUD: React.FC<VeriShieldHUDProps> = ({ onVerified }) => {
+export const VeriShieldHUD: React.FC<VeriShieldHUDProps> = ({ onVerified, onTriggerVoice }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -235,7 +237,7 @@ export const VeriShieldHUD: React.FC<VeriShieldHUDProps> = ({ onVerified }) => {
               {verificationResult.status === 'VERIFIED' ? (
                 <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-emerald-400">
-                    <CheckCircle2 className="w-5 h-5" />
+                    <CheckCircle2 className="w-5 h-5 shrink-0" />
                     <div>
                       <div className="font-bold text-sm">CRYPTOGRAPHICALLY VERIFIED</div>
                       <div className="text-[11px] text-slate-300">
@@ -243,14 +245,25 @@ export const VeriShieldHUD: React.FC<VeriShieldHUDProps> = ({ onVerified }) => {
                       </div>
                     </div>
                   </div>
-                  <span className="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">
-                    PASSED TIER-A
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {onTriggerVoice && (
+                      <button
+                        onClick={() => onTriggerVoice('VERISHIELD_ALERT', verificationResult)}
+                        className="px-2.5 py-1 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-xs font-mono flex items-center gap-1 transition-all"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                        <span>Listen</span>
+                      </button>
+                    )}
+                    <span className="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold">
+                      PASSED TIER-A
+                    </span>
+                  </div>
                 </div>
               ) : (
                 <div className="p-3 rounded-lg bg-danger/10 border border-danger/30 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-danger">
-                    <ShieldAlert className="w-5 h-5" />
+                    <ShieldAlert className="w-5 h-5 shrink-0" />
                     <div>
                       <div className="font-bold text-sm">REVIEW REQUIRED (COLLISION DETECTED)</div>
                       <div className="text-[11px] text-slate-300">
@@ -258,9 +271,20 @@ export const VeriShieldHUD: React.FC<VeriShieldHUDProps> = ({ onVerified }) => {
                       </div>
                     </div>
                   </div>
-                  <span className="px-2 py-1 rounded bg-danger/20 text-danger text-[10px] font-bold">
-                    BLOCKED
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {onTriggerVoice && (
+                      <button
+                        onClick={() => onTriggerVoice('VERISHIELD_ALERT', verificationResult)}
+                        className="px-2.5 py-1 rounded bg-danger/20 hover:bg-danger/30 text-danger text-xs font-mono flex items-center gap-1 transition-all"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                        <span>Hear Alert</span>
+                      </button>
+                    )}
+                    <span className="px-2 py-1 rounded bg-danger/20 text-danger text-[10px] font-bold">
+                      BLOCKED
+                    </span>
+                  </div>
                 </div>
               )}
             </div>

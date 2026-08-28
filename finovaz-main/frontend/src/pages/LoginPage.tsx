@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Lock, Building2, Landmark, AlertCircle, ArrowRight } from 'lucide-react';
 import { UserRole } from '@finova/shared';
 
 interface LoginPageProps {

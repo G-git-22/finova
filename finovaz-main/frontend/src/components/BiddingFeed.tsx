@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Bid, Invoice, TopsisResult } from '@finova/shared';
+import { Zap, Award, ArrowRight, Volume2, Mic } from 'lucide-react';
+import { Bid, Invoice, TopsisResult, VoiceTopic } from '@finova/shared';
 
 interface BiddingFeedProps {
   invoice: Invoice;
   onAcceptOffer: (bid: Bid) => void;
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
 }
 
-export const BiddingFeed: React.FC<BiddingFeedProps> = ({ invoice, onAcceptOffer }) => {
+export const BiddingFeed: React.FC<BiddingFeedProps> = ({ invoice, onAcceptOffer, onTriggerVoice }) => {
   const [bids, setBids] = useState<Bid[]>([]);
   const [topsisData, setTopsisData] = useState<TopsisResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -160,13 +162,27 @@ export const BiddingFeed: React.FC<BiddingFeedProps> = ({ invoice, onAcceptOffer
               {bestBid.advance}% advance) and minimal financial drag ({bestBid.rate}% APR).
             </p>
 
-            <button
-              onClick={() => onAcceptOffer(bestBid)}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-400 text-black font-bold text-xs shadow-glow-success hover:bg-emerald-300 transition-all flex items-center justify-center gap-2"
-            >
-              <span>Accept & Execute Smart Contract</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
+              {onTriggerVoice && (
+                <button
+                  type="button"
+                  onClick={() => onTriggerVoice('TOPSIS_DEAL', { bestMatch: bestBid, invoice })}
+                  className="px-4 py-2.5 rounded-xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-semibold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                  title="Narrate Deal Analysis using ElevenLabs Voice"
+                >
+                  <Volume2 className="w-4 h-4 text-accent" />
+                  <span>🎙️ Voice Briefing</span>
+                </button>
+              )}
+
+              <button
+                onClick={() => onAcceptOffer(bestBid)}
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-emerald-400 text-black font-bold text-xs shadow-glow-success hover:bg-emerald-300 transition-all flex items-center justify-center gap-2"
+              >
+                <span>Accept & Execute Smart Contract</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -27,6 +27,7 @@ lerna-debug.log*
 # Editor & OS files
 .DS_Store
 Thumbs.db
+*.timestamp-*.mjs
 .vscode/
 .idea/
 *.suo

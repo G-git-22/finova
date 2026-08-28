@@ -6,7 +6,8 @@ import { FinancierConsole } from './pages/FinancierConsole';
 import { PortfolioTwin } from './components/PortfolioTwin';
 import { SyndicationBar } from './components/SyndicationBar';
 import { ChaosSandbox } from './components/ChaosSandbox';
-import { UserRole } from '@finova/shared';
+import { VoiceCopilot } from './components/VoiceCopilot';
+import { UserRole, VoiceTopic } from '@finova/shared';
 
 export const App: React.FC = () => {
   const [user, setUser] = useState<{
@@ -18,6 +19,7 @@ export const App: React.FC = () => {
   } | null>(null);
 
   const [activeTab, setActiveTab] = useState<string>('cockpit');
+  const [voiceTriggerTopic, setVoiceTriggerTopic] = useState<VoiceTopic | null>(null);
 
   useEffect(() => {
     const stored = localStorage.getItem('FINOVA_USER_DATA');
@@ -59,6 +61,10 @@ export const App: React.FC = () => {
     localStorage.setItem('FINOVA_USER_DATA', JSON.stringify(updatedUser));
   };
 
+  const handleTriggerVoice = (topic: VoiceTopic) => {
+    setVoiceTriggerTopic(topic);
+  };
+
   if (!user) {
     return <LoginPage onLoginSuccess={handleLoginSuccess} />;
   }
@@ -73,12 +79,13 @@ export const App: React.FC = () => {
         setActiveTab={setActiveTab}
         onLogout={handleLogout}
         onSwitchRole={handleSwitchRole}
+        onOpenVoice={() => setVoiceTriggerTopic('TOPSIS_DEAL')}
       />
 
       <main className="flex-1">
         {activeTab === 'cockpit' && (
           user.role === 'SUPPLIER' ? (
-            <SupplierCockpit />
+            <SupplierCockpit onTriggerVoice={handleTriggerVoice} />
           ) : (
             <FinancierConsole
               providerName={user.entity_name}
@@ -90,25 +97,32 @@ export const App: React.FC = () => {
 
         {activeTab === 'portfolio' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <PortfolioTwin />
+            <PortfolioTwin onTriggerVoice={handleTriggerVoice} />
           </div>
         )}
 
         {activeTab === 'syndication' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <SyndicationBar invoiceAmount={5000000} />
+            <SyndicationBar invoiceAmount={5000000} onTriggerVoice={handleTriggerVoice} />
           </div>
         )}
 
         {activeTab === 'chaos' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-            <ChaosSandbox />
+            <ChaosSandbox onTriggerVoice={handleTriggerVoice} />
           </div>
         )}
       </main>
 
+      {/* ElevenLabs Voice Intelligence Copilot Widget */}
+      <VoiceCopilot
+        triggerTopic={voiceTriggerTopic}
+        onClearTrigger={() => setVoiceTriggerTopic(null)}
+        currentContext={{ activeTab }}
+      />
+
       <footer className="glass-panel border-t border-surface-border py-4 px-6 text-center text-xs font-mono text-slate-500">
-        FINOVA // Autonomous Supply Chain Capital Consensus Engine • SHA-256 VeriShield Proofs • TOPSIS AI Optimization
+        FINOVA // Autonomous Supply Chain Capital Consensus Engine • ElevenLabs AI Voice • SHA-256 VeriShield • TOPSIS
       </footer>
     </div>
   );

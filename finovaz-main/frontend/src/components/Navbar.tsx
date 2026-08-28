@@ -1,4 +1,5 @@
 import React from 'react';
+import { Cpu, Layers, LogOut, Mic, Volume2 } from 'lucide-react';
 import { UserRole } from '@finova/shared';
 
 interface NavbarProps {
@@ -9,6 +10,7 @@ interface NavbarProps {
   setActiveTab: (tab: string) => void;
   onLogout: () => void;
   onSwitchRole: () => void;
+  onOpenVoice?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -18,7 +20,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeTab,
   setActiveTab,
   onLogout,
-  onSwitchRole
+  onSwitchRole,
+  onOpenVoice
 }) => {
   return (
     <header className="sticky top-0 z-50 glass-panel border-b border-surface-border px-6 py-3.5 backdrop-blur-xl">
@@ -41,6 +44,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
             <span>VERISHIELD CONSENSUS: ONLINE</span>
           </div>
+
+          <button
+            onClick={onOpenVoice}
+            className="hidden xl:flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent hover:bg-accent/20 transition-all cursor-pointer"
+          >
+            <Mic className="w-3.5 h-3.5 text-accent" />
+            <span>ELEVENLABS VOICE AI</span>
+          </button>
         </div>
 
         {/* Navigation Tabs */}

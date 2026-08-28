@@ -160,3 +160,31 @@ export interface ChaosResult {
     systemResilienceScore: number;
   };
 }
+
+export type VoiceTopic =
+  | 'TOPSIS_DEAL'
+  | 'VERISHIELD_ALERT'
+  | 'PORTFOLIO_BRIEFING'
+  | 'SYNDICATION_ANALYSIS'
+  | 'CHAOS_REPORT'
+  | 'CUSTOM';
+
+export interface VoiceNarrateRequest {
+  text?: string;
+  voiceId?: string;
+  topic?: VoiceTopic;
+  contextData?: any;
+  apiKey?: string;
+}
+
+export interface VoiceNarrateResponse {
+  success: boolean;
+  audioBase64?: string;
+  mimeType?: string;
+  scriptText: string;
+  voiceName: string;
+  voiceId: string;
+  topic: VoiceTopic;
+  engine: 'ELEVENLABS_API' | 'BROWSER_SYNTHESIS_FALLBACK';
+  message?: string;
+}

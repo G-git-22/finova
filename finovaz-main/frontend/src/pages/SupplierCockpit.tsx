@@ -3,10 +3,14 @@ import { VeriShieldHUD } from '../components/VeriShieldHUD';
 import { TrustGraph } from '../components/TrustGraph';
 import { BiddingFeed } from '../components/BiddingFeed';
 import { WhatIfSlider } from '../components/WhatIfSlider';
-import { Bid, Invoice } from '@finova/shared';
+import { Bid, Invoice, VoiceTopic } from '@finova/shared';
 import { CheckCircle2, Copy, FileCheck, ArrowRight, ShieldCheck, Download } from 'lucide-react';
 
-export const SupplierCockpit: React.FC = () => {
+interface SupplierCockpitProps {
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
+}
+
+export const SupplierCockpit: React.FC<SupplierCockpitProps> = ({ onTriggerVoice }) => {
   const [currentInvoice, setCurrentInvoice] = useState<Invoice | null>(null);
   const [settledBid, setSettledBid] = useState<Bid | null>(null);
   const [showCertModal, setShowCertModal] = useState<boolean>(false);
@@ -70,14 +74,14 @@ export const SupplierCockpit: React.FC = () => {
       <TrustGraph score={94} buyerName="Tata Motors Ltd" historicalSettlements={18} volumeFinanced={4250000} />
 
       {/* VeriShield Cryptographic Ingestion HUD */}
-      <VeriShieldHUD onVerified={handleInvoiceVerified} />
+      <VeriShieldHUD onVerified={handleInvoiceVerified} onTriggerVoice={onTriggerVoice} />
 
       {/* What-If Financial Modeling Simulation */}
       <WhatIfSlider invoiceAmount={currentInvoice ? currentInvoice.invoiceAmount : 850000} />
 
       {/* Real-Time Competitive Bidding Engine */}
       {currentInvoice && (
-        <BiddingFeed invoice={currentInvoice} onAcceptOffer={handleAcceptOffer} />
+        <BiddingFeed invoice={currentInvoice} onAcceptOffer={handleAcceptOffer} onTriggerVoice={onTriggerVoice} />
       )}
 
       {/* Settlement Certificate Modal */}

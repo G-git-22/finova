@@ -111,3 +111,37 @@ export const INITIAL_INVOICES: Invoice[] = [
     createdAt: Date.now() - 3600000
   }
 ];
+
+export interface VoiceOption {
+  id: string;
+  name: string;
+  role: string;
+  category: string;
+}
+
+export const ELEVENLABS_VOICES: VoiceOption[] = [
+  {
+    id: '21m00Tcm4TlvDq8ikWAM',
+    name: 'Rachel',
+    role: 'Executive Deal Analyst',
+    category: 'Financial Intelligence'
+  },
+  {
+    id: 'pNInz6obpgDQGcFmaJgB',
+    name: 'Adam',
+    role: 'Institutional Underwriter',
+    category: 'Risk Management'
+  },
+  {
+    id: 'ErXwobaYiN019PkySvjV',
+    name: 'Antoni',
+    role: 'Market Strategist',
+    category: 'Consensus Dispatch'
+  },
+  {
+    id: 'EXAVITQu4vr4xnSDxMaL',
+    name: 'Bella',
+    role: 'Fraud Intelligence Desk',
+    category: 'VeriShield Security'
+  }
+];

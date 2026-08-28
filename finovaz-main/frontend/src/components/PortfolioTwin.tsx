@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CapitalProvider } from '@finova/shared';
+import { Landmark, TrendingUp, Activity, Volume2 } from 'lucide-react';
+import { CapitalProvider, VoiceTopic } from '@finova/shared';
 
-export const PortfolioTwin: React.FC = () => {
+interface PortfolioTwinProps {
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
+}
+
+export const PortfolioTwin: React.FC<PortfolioTwinProps> = ({ onTriggerVoice }) => {
   const [providers, setProviders] = useState<CapitalProvider[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
   const [totalDeployed, setTotalDeployed] = useState<number>(0);
@@ -30,6 +35,25 @@ export const PortfolioTwin: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Header with Executive Briefing Action */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel rounded-2xl p-5 border border-surface-border">
+        <div>
+          <span className="text-xs font-mono text-accent">PORTFOLIO DIGITAL TWIN</span>
+          <h2 className="text-lg font-bold text-white mt-0.5">Live Capital Deployment & Counterparty Exposure</h2>
+          <p className="text-xs text-slate-400">Continuous liquidity monitoring across institutional lender vaults</p>
+        </div>
+
+        {onTriggerVoice && (
+          <button
+            onClick={() => onTriggerVoice('PORTFOLIO_BRIEFING', { totalDeployedCapital: totalDeployed, totalAvailableLiquidity: totalLiquidity })}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-mono text-xs font-semibold shadow-sm transition-all"
+          >
+            <Volume2 className="w-4 h-4 text-accent animate-pulse" />
+            <span>🎙️ Hear Executive Morning Brief</span>
+          </button>
+        )}
+      </div>
+
       {/* Overview KPI Header */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="glass-panel rounded-2xl p-5 border border-surface-border">

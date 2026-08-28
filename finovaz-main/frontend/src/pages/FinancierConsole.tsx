@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Zap, Send } from 'lucide-react';
 import { Invoice } from '@finova/shared';
 
 interface FinancierConsoleProps {

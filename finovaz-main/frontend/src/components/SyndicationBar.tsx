@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { SyndicationPlan } from '@finova/shared';
+import { Layers, Shield, TrendingUp, Lock, Volume2 } from 'lucide-react';
+import { SyndicationPlan, VoiceTopic } from '@finova/shared';
 
 interface SyndicationBarProps {
   invoiceAmount?: number;
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
 }
 
-export const SyndicationBar: React.FC<SyndicationBarProps> = ({ invoiceAmount = 5000000 }) => {
+export const SyndicationBar: React.FC<SyndicationBarProps> = ({ invoiceAmount = 5000000, onTriggerVoice }) => {
   const [seniorRate, setSeniorRate] = useState<number>(8.5);
   const [mezzanineRate, setMezzanineRate] = useState<number>(11.5);
   const [plan, setPlan] = useState<SyndicationPlan | null>(null);
@@ -49,12 +51,24 @@ export const SyndicationBar: React.FC<SyndicationBarProps> = ({ invoiceAmount = 
           </div>
         </div>
 
-        {plan && (
-          <div className="flex items-center gap-2 bg-surface px-3 py-1.5 rounded-xl border border-surface-border">
-            <span className="text-xs text-slate-400 font-mono">BLENDED APR:</span>
-            <span className="text-sm font-bold font-mono text-emerald-400">{plan.blendedAPR}%</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {plan && (
+            <div className="flex items-center gap-2 bg-surface px-3 py-1.5 rounded-xl border border-surface-border">
+              <span className="text-xs text-slate-400 font-mono">BLENDED APR:</span>
+              <span className="text-sm font-bold font-mono text-emerald-400">{plan.blendedAPR}%</span>
+            </div>
+          )}
+
+          {onTriggerVoice && (
+            <button
+              onClick={() => onTriggerVoice('SYNDICATION_ANALYSIS', plan)}
+              className="px-3 py-1.5 rounded-xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-mono text-xs font-semibold flex items-center gap-1.5 transition-all"
+            >
+              <Volume2 className="w-4 h-4 text-accent" />
+              <span>🎙️ Tranche Audio Brief</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Visual Tranche Bar */}

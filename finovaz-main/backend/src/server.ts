@@ -10,7 +10,8 @@ import { VeriShieldModule } from './modules/verishield';
 import { TopsisEngine } from './modules/topsisEngine';
 import { SyndicationModule } from './modules/syndication';
 import { ChaosEngine } from './modules/chaosEngine';
-import { Bid, ChaosEvent, VerificationRequest } from '@finova/shared';
+import { ElevenLabsService } from './modules/elevenLabsService';
+import { Bid, ChaosEvent, VerificationRequest, VoiceNarrateRequest, VoiceTopic, ELEVENLABS_VOICES } from '@finova/shared';
 
 dotenv.config();
 
@@ -230,6 +231,56 @@ server.get('/api/analytics/portfolio', async () => {
     totalDeployedCapital: store.providers.reduce((s, p) => s + p.deployedCapital, 0),
     totalAvailableLiquidity: store.providers.reduce((s, p) => s + p.liquidity, 0)
   };
+});
+
+// 12. ElevenLabs AI Voice Intelligence Routes
+server.get('/api/voice/voices', async () => {
+  return {
+    success: true,
+    voices: ELEVENLABS_VOICES,
+    defaultVoiceId: '21m00Tcm4TlvDq8ikWAM'
+  };
+});
+
+server.post('/api/voice/narrate', async (request, reply) => {
+  try {
+    const body = (request.body || {}) as VoiceNarrateRequest;
+    const result = await ElevenLabsService.narrate(body);
+    return result;
+  } catch (err: any) {
+    return reply.status(500).send({
+      success: false,
+      message: err?.message || 'Failed to synthesize voice narration.'
+    });
+  }
+});
+
+server.get('/api/voice/briefing/:topic', async (request, reply) => {
+  const { topic } = request.params as { topic: VoiceTopic };
+  const query = (request.query || {}) as { voiceId?: string; apiKey?: string };
+
+  let contextData: any = {};
+  if (topic === 'PORTFOLIO_BRIEFING') {
+    contextData = {
+      totalDeployedCapital: store.providers.reduce((s, p) => s + p.deployedCapital, 0),
+      totalAvailableLiquidity: store.providers.reduce((s, p) => s + p.liquidity, 0)
+    };
+  } else if (topic === 'TOPSIS_DEAL') {
+    const bids = store.getBidsForInvoice('INV-1042');
+    if (bids.length > 0) {
+      const topsis = TopsisEngine.evaluate(bids);
+      contextData = topsis;
+    }
+  }
+
+  const result = await ElevenLabsService.narrate({
+    topic,
+    voiceId: query.voiceId,
+    apiKey: query.apiKey,
+    contextData
+  });
+
+  return result;
 });
 
 // Start Server

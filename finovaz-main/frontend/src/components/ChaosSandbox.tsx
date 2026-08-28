@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { ChaosEvent, ChaosResult } from '@finova/shared';
+import { Flame, AlertOctagon, ShieldCheck, Activity, Zap, Volume2 } from 'lucide-react';
+import { ChaosEvent, ChaosResult, VoiceTopic } from '@finova/shared';
 
-export const ChaosSandbox: React.FC = () => {
+interface ChaosSandboxProps {
+  onTriggerVoice?: (topic: VoiceTopic, data?: any) => void;
+}
+
+export const ChaosSandbox: React.FC<ChaosSandboxProps> = ({ onTriggerVoice }) => {
   const [intensity, setIntensity] = useState<number>(50);
   const [loading, setLoading] = useState<boolean>(false);
   const [lastResult, setLastResult] = useState<ChaosResult | null>(null);
@@ -128,7 +133,18 @@ export const ChaosSandbox: React.FC = () => {
         <div className="p-4 rounded-xl bg-black/60 border border-danger/30 space-y-3 font-mono text-xs">
           <div className="flex items-center justify-between">
             <span className="text-danger font-bold">CHAOS INJECTION REPORT: {lastResult.eventType}</span>
-            <span className="text-emerald-400">Resilience Score: {lastResult.impactMetrics.systemResilienceScore}/100</span>
+            <div className="flex items-center gap-2">
+              {onTriggerVoice && (
+                <button
+                  onClick={() => onTriggerVoice('CHAOS_REPORT', lastResult)}
+                  className="px-2.5 py-1 rounded bg-danger/20 hover:bg-danger/30 text-danger text-[11px] font-mono flex items-center gap-1 transition-all"
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>🎙️ Voice Verdict</span>
+                </button>
+              )}
+              <span className="text-emerald-400">Resilience Score: {lastResult.impactMetrics.systemResilienceScore}/100</span>
+            </div>
           </div>
           <p className="text-slate-300">{lastResult.description}</p>
           <div className="grid grid-cols-3 gap-2 pt-2 border-t border-surface-border text-[11px]">
