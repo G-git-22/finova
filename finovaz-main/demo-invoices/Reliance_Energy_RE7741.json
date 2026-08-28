@@ -1,0 +1,24 @@
+{
+  "invoiceId": "INV-5589",
+  "supplierId": "29BBDEF5678G2Y8",
+  "supplierName": "Beta Manufacturing Hub Ltd",
+  "buyerName": "Reliance Industries Ltd",
+  "buyerGstin": "24AAACR5055K1ZI",
+  "invoiceAmount": 5000000,
+  "issueDate": "2026-08-25",
+  "dueDate": "2026-11-25",
+  "lineItems": [
+    {
+      "description": "Industrial Grade Heavy Electrical Transformers",
+      "quantity": 4,
+      "unitPrice": 1000000,
+      "amount": 4000000
+    },
+    {
+      "description": "High-Voltage Switchgear Protection Panels",
+      "quantity": 5,
+      "unitPrice": 200000,
+      "amount": 1000000
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "target": "ES2022",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@finova/shared": ["../shared/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*", "../shared/src/**/*"]
+}

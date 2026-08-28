@@ -1,0 +1,24 @@
+{
+  "invoiceId": "INV-1042",
+  "supplierId": "27AABCA1234F1Z9",
+  "supplierName": "Alpha Precision Components Ltd",
+  "buyerName": "Tata Motors Ltd",
+  "buyerGstin": "27AAACT2727Q1ZW",
+  "invoiceAmount": 850000,
+  "issueDate": "2026-08-28",
+  "dueDate": "2026-10-27",
+  "lineItems": [
+    {
+      "description": "Precision CNC Machined Gear Units",
+      "quantity": 50,
+      "unitPrice": 12000,
+      "amount": 600000
+    },
+    {
+      "description": "High-Tensile Transmission Shaft Assemblies",
+      "quantity": 25,
+      "unitPrice": 10000,
+      "amount": 250000
+    }
+  ]
+}

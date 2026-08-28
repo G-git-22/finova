@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Dashboard | FINOVA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Parallax Background -->
+    <div class="parallax-container" id="parallax-container"></div>
+
+    <div class="dashboard-wrapper">
+        <!-- Dashboard Header -->
+        <header class="dash-header">
+            <div class="logo">FINOVA</div>
+            <div class="profile-chip">
+                <div class="avatar">AP</div>
+                <span>Alpha Precision Components Ltd</span>
+            </div>
+        </header>
+
+        <!-- Top KPI Strip -->
+        <div class="kpi-strip">
+            <div class="kpi-card glass-card">
+                <div class="kpi-title">Trust Score</div>
+                <div class="kpi-value">94<span class="kpi-sub">/100</span></div>
+                <div class="kpi-badge tier-a">Tier-A</div>
+            </div>
+            <div class="kpi-card glass-card">
+                <div class="kpi-title">Previous Deals</div>
+                <div class="kpi-value">18</div>
+                <div class="kpi-subtext">Invoices Settled</div>
+            </div>
+            <div class="kpi-card glass-card">
+                <div class="kpi-title">Total Financed</div>
+                <div class="kpi-value">₹42,50,000</div>
+                <div class="kpi-subtext">Lifetime volume</div>
+            </div>
+        </div>
+
+        <!-- Center Main: Invoice Upload & Verification -->
+        <main class="main-module glass-card">
+            
+            <div id="upload-zone" class="upload-zone" style="cursor: pointer;">
+                <input type="file" id="invoice-file-input" accept=".pdf,.json,.png,.jpg" style="display:none;">
+                <div class="upload-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="glow-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+                <h2>Upload Invoice (PDF/JSON)</h2>
+                <p>Drag & drop your verified buyer invoice here, or <span style="color:var(--accent); text-decoration:underline;">browse files</span></p>
+                <div class="or-divider"><span>OR</span></div>
+                <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+                    <button id="btn-demo-invoice" type="button" class="demo-btn">Load Demo Invoice (₹8.5L Tata Motors)</button>
+                    <button id="btn-duplicate-attack" type="button" class="demo-btn" style="border-color:#ff5f56; color:#ff5f56; background:rgba(255,95,86,0.1);">⚠ Simulate Duplicate Attack</button>
+                </div>
+            </div>
+
+            <div id="verification-terminal" class="verification-terminal hidden">
+                <div class="terminal-header">
+                    <div class="window-controls">
+                        <span class="control-dot close"></span>
+                        <span class="control-dot min"></span>
+                        <span class="control-dot max"></span>
+                    </div>
+                    <div class="terminal-title">FINOVA // Cryptographic Verification</div>
+                </div>
+                
+                <div class="terminal-body" id="terminal-output">
+                    <!-- Lines added via JS -->
+                </div>
+                
+                <div class="progress-container hidden" id="hash-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">Computing Hash...</div>
+                </div>
+
+                <!-- Verification Result -->
+                <div class="verification-result hidden" id="verification-result">
+                    <div class="verified-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <span>VERIFIED</span>
+                    </div>
+                    <div class="explainability-panel">
+                        <strong>Why it passed:</strong> Invoice integrity confirmed. Hash is mathematically unique (no double-financing detected) and linked to verified Tier-1 buyer (Tata Motors Ltd).
+                    </div>
+                </div>
+
+                <!-- Bidding Trigger -->
+                <div class="action-trigger hidden" id="action-trigger">
+                    <button class="bidding-btn" id="btn-bidding">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                        Start Market Bidding
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="store.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
